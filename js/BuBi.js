@@ -26,6 +26,8 @@ buzzwordBingo.controller("buzzWordCtrl", function($scope) {
     $scope.columns = 5;
     $scope.rows = 5;
 
+    $scope.joker = true;
+
     // Separated terms
     $scope.terms = [];
 
@@ -86,7 +88,15 @@ buzzwordBingo.controller("buzzWordCtrl", function($scope) {
                 // Fill the card with buzzwords
                 // If there are less buzzwords than $scope.rows * $scope.columns
                 // then cards won't get filled completely
-                column = randomBuzz.splice(0, $scope.columns);
+                if ($scope.joker && rowCnt == (($scope.rows - 1) / 2)){
+                    // Add joker in the middle of the field
+                    column = randomBuzz.splice(0, (($scope.rows - 1) / 2));
+                    column.push('Joker');
+                    column = column.concat(randomBuzz.splice(0, (($scope.rows - 1) / 2)));
+                }
+                else {
+                    column = randomBuzz.splice(0, $scope.columns);
+                }
 
                 card.rows.push(column);
             }
